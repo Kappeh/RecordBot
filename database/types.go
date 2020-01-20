@@ -42,12 +42,13 @@ type UserStrike struct {
 	// being given to the user
 	Reason string
 
+	// AuthorID is the id of the user that gave the strike
+	AuthorID string
+
 	// Timestamp is the time which the strike was initially given
 	Timestamp Timestamp
 	// EditedTimestamp is the time which the strike was last edited
 	EditedTimestamp Timestamp
-	// AuthorID is the id of the user that gave the strike
-	AuthorID string
 }
 
 // GuildSetting contains guild specific settings
