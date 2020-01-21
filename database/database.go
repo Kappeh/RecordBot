@@ -1,5 +1,22 @@
 package database
 
+import (
+	"github.com/pkg/errors"
+)
+
+// Instance gets the packages database instance
+func Instance() (*Database, error) {
+	if Error != nil {
+		return nil, errors.Wrap(Error, "database connection failed during init")
+	}
+	return &databaseInstance, nil
+}
+
+// Close closes the database connection
+func (d *Database) Close() error {
+	return d.db.Close()
+}
+
 // UserStrikeCount gets the number of strikes that have been given
 // to a user
 func (d *Database) UserStrikeCount(userID string) (UserStrikeCount, error) {

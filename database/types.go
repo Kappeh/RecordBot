@@ -1,7 +1,11 @@
 package database
 
+import (
+	"database/sql"
+)
+
 // Database is an instance of a database connection
-type Database struct{}
+type Database struct{ db *sql.DB }
 
 // Timestamp is a time represented as a string
 type Timestamp string
@@ -55,10 +59,10 @@ type UserStrike struct {
 type GuildSetting struct {
 	// GuildID is the id of the guild the settings apply to
 	GuildID string
+
 	// BuildChannelID is the id of the channel within the guild
 	// in which build messages are to be sent to and reside in
 	BuildChannelID string
-
 	// TicketChannelCategoryID is the id of the category in which
 	// ticket channels are to be made within
 	TicketChannelCategoryID string
