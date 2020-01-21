@@ -1,0 +1,269 @@
+// My Tables
+Table UserStrikes {
+  UserID int [pk]
+  StikeID int [pk, increment]
+  Reason text
+  AuthorID int
+  Timestamp int
+  EditedTimestamp int
+}
+
+Table GuildSettings {
+  GuildID int [pk]
+  BuildChannelID int
+  TicketChannelCategoryID int
+  Timestamp int
+  EditedTimestamp int
+}
+
+Table Editions {
+  ID int [pk, increment]
+  Name text
+  Description text
+  Timestamp int
+  EditedTimestamp int
+}
+
+Table BuildClasses {
+  ID int [pk, increment]
+  Name text
+  Description text
+  EmbedColour text
+  Timestamp int
+  EditedTimestamp int
+}
+
+Table RecordTypes {
+  ID int [pk, increment]
+  Name text
+  Description text
+  Timestamp int
+  EditedTimestamp int
+}
+
+Table GuildRecordTypeChannels {
+  GuildID int [pk]
+  RecordTypeID int [pk]
+  ChannelID int
+  Timestamp int
+  EditedTimestamp int
+}
+
+Table Builds {
+  ID int [pk, increment]
+  Verified int
+  VerifierID int
+  VerifiedTimestamp int
+  Reported int
+  ReporterID int
+  ReportedTimestamp int
+  UpdateRequest int
+  UpdateRequestBuildID int
+  EditionID int
+  BuildClassID int
+  Name text
+  Description text
+  Creators text
+  CreationTimestamp int
+  Width int
+  Height int
+  Depth int
+  NormalCloseDuration int
+  NormalOpenDuration int
+  VisibleCloseDuration int
+  VisibleOpenDuration int
+  DelayCloseDuration int
+  DelayOpenDuration int
+  ResetCloseDuration int
+  ResetOpenDuration int
+  ExtensionDuration int
+  RetractionDuration int
+  ExtensionDelayDuration int
+  RetractionDelayDuration int
+  ImageURL text
+  YoutubeURL text
+  WorldDownloadURL text
+  ServerIPAddress text
+  ServerCoordinates text
+  ServerCommand text
+  SubmitterID int
+  Timestamp int
+  EditedTimestamp int
+}
+
+Table Versions {
+  ID int [pk, increment]
+  EditionID int
+  MajorVersion int
+  MinorVersion int
+  Patch int
+  Name text
+  Description text
+  VersionTimestamp int
+  Timestamp int
+  EditedTimestamp int
+}
+
+Table Records {
+  ID int  [pk, increment]
+  Verified int
+  VerifierID int
+  VerifiedTimestamp int
+  UpdateRequest int
+  UpdateRequestRecordID int
+  EditionID int
+  BuildClassID int
+  RecordTypeID int
+  Name text
+  Description text
+  SubmitterID int
+  Timestamp int
+  EditedTimestamp int
+}
+
+Table GuildBuildMessages {
+  GuildID int [pk]
+  BuildID int [pk]
+  ChannelID int
+  MessageID int
+  Timestamp int
+  EditedTimestamp int
+}
+
+Table BuildVersions {
+  BuildID int [pk]
+  VersionID int [pk]
+  StatusID int
+  Notes text
+  Timestamp int
+  EditedTimestamp int
+}
+
+Table Statuses {
+  ID int [pk, increment]
+  Name text
+  Description text
+  Timestamp int
+  EditedTimestamp int
+}
+
+Table BuildRecords {
+  ID int [pk, increment]
+  BuildID int
+  RecordID int
+  Verified int
+  VerifierID int
+  VerifiedTimestamp int
+  Reported int
+  ReporterID int
+  ReportedTimestamp int
+  JointBuildRecord int
+  JointBuildRecordID int
+  SubmitterID int
+  Timestamp int
+  EditedTimestamp int
+}
+
+Table GuildRecordMessages {
+  GuildID int [pk]
+  RecordID int [pk]
+  ChannelID int
+  MessageID int
+  Timestamp int
+  EditedTimestamp int
+}
+
+Table GuildTicketChannels {
+  GuildID int [pk]
+  TicketID int [pk, increment]
+  ChannelID int
+  TicketType int
+  CreatorID int
+  Timestamp int
+}
+
+// Discord Tables
+Table Discord_Users {
+  ID int [pk]
+}
+
+Table Discord_Guilds {
+  ID int [pk]
+}
+
+Table Discord_Channels {
+  ID int [pk]
+}
+
+Table Discord_Messages {
+  ID int [pk]
+}
+
+// Links between my tables
+
+// GuildRecordTypeChannels
+Ref: "RecordTypes"."ID" < "GuildRecordTypeChannels"."RecordTypeID"
+
+// Builds
+Ref: "Builds"."ID" < "Builds"."UpdateRequestBuildID"
+Ref: "Editions"."ID" < "Builds"."EditionID"
+Ref: "BuildClasses"."ID" < "Builds"."BuildClassID"
+
+// Versions
+Ref: "Editions"."ID" < "Versions"."EditionID"
+
+// Records
+Ref: "Records"."ID" < "Records"."UpdateRequestRecordID"
+Ref: "Editions"."ID" < "Records"."EditionID"
+Ref: "BuildClasses"."ID" < "Records"."BuildClassID"
+Ref: "RecordTypes"."ID" < "Records"."RecordTypeID"
+
+// GuildBuildMessages
+Ref: "Builds"."ID" < "GuildBuildMessages"."BuildID"
+
+// BuildVersions
+Ref: "Builds"."ID" < "BuildVersions"."BuildID"
+Ref: "Versions"."ID" < "BuildVersions"."VersionID"
+Ref: "Statuses"."ID" < "BuildVersions"."StatusID"
+
+// BuildRecords
+Ref: "Builds"."ID" < "BuildRecords"."BuildID"
+Ref: "Records"."ID" < "BuildRecords"."RecordID"
+Ref: "BuildRecords"."ID" < "BuildRecords"."JointBuildRecordID"
+
+// GuildRecordMessages
+Ref: "Records"."ID" < "GuildRecordMessages"."RecordID"
+
+// Links to discord tables
+
+// Discord_Users
+Ref: "UserStrikes"."UserID" > "Discord_Users"."ID"
+Ref: "UserStrikes"."AuthorID" > "Discord_Users"."ID"
+Ref: "GuildTicketChannels"."CreatorID" > "Discord_Users"."ID"
+Ref: "Builds"."VerifierID" > "Discord_Users"."ID"
+Ref: "Builds"."ReporterID" > "Discord_Users"."ID"
+Ref: "Builds"."SubmitterID" > "Discord_Users"."ID"
+Ref: "Records"."VerifierID" > "Discord_Users"."ID"
+Ref: "Records"."SubmitterID" > "Discord_Users"."ID"
+Ref: "BuildRecords"."VerifierID" > "Discord_Users"."ID"
+Ref: "BuildRecords"."ReporterID" > "Discord_Users"."ID"
+Ref: "BuildRecords"."SubmitterID" > "Discord_Users"."ID"
+
+// Discord_Guilds
+Ref: "GuildSettings"."GuildID" > "Discord_Guilds"."ID"
+Ref: "GuildTicketChannels"."GuildID" > "Discord_Guilds"."ID"
+Ref: "GuildRecordTypeChannels"."GuildID" > "Discord_Guilds"."ID"
+Ref: "GuildBuildMessages"."GuildID" > "Discord_Guilds"."ID"
+Ref: "GuildRecordMessages"."GuildID" > "Discord_Guilds"."ID"
+
+// Discord_Channels
+Ref: "GuildSettings"."BuildChannelID" > "Discord_Channels"."ID"
+Ref: "GuildSettings"."TicketChannelCategoryID" > "Discord_Channels"."ID"
+Ref: "GuildTicketChannels"."ChannelID" > "Discord_Channels"."ID"
+Ref: "GuildRecordTypeChannels"."ChannelID" > "Discord_Channels"."ID"
+Ref: "GuildBuildMessages"."ChannelID" > "Discord_Channels"."ID"
+Ref: "GuildRecordMessages"."ChannelID" > "Discord_Channels"."ID"
+
+// Discord_Messages
+Ref: "GuildBuildMessages"."MessageID" > "Discord_Messages"."ID"
+Ref: "GuildRecordMessages"."MessageID" > "Discord_Messages"."ID"
