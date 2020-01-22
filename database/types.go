@@ -2,13 +2,14 @@ package database
 
 import (
 	"database/sql"
+	"time"
 )
 
 // Database is an instance of a database connection
 type Database struct{ db *sql.DB }
 
-// Timestamp is a time represented as a string
-type Timestamp string
+// Timestamp is a time
+type Timestamp time.Time
 
 // TicketType indicates what type of ticket a guild ticket channel is
 type TicketType int
@@ -475,11 +476,11 @@ type GuildRecordMessage struct {
 type GuildTicketChannel struct {
 	// GuildID is the id of the discord guild that contains the ticket
 	GuildID string
-	// TicketID is the id of the ticket within the guild
-	TicketID string
-
 	// ChannelID is the id of the channel marked as a ticket
 	ChannelID string
+
+	// TicketID is the id of the ticket within the guild
+	TicketID string
 	// TicketType is the type of the ticket
 	TicketType TicketType
 

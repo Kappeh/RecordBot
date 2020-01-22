@@ -243,13 +243,13 @@ var tables = [...]string{
 	`,
 	`	CREATE TABLE IF NOT EXISTS GuildTicketChannels (
 			GuildID 	INTEGER NOT NULL,
-			TicketID 	INTEGER NOT NULL,
 			ChannelID 	INTEGER NOT NULL,
+			TicketID 	INTEGER NOT NULL,
 			TicketType 	INTEGER NOT NULL,
 			CreatorID 	INTEGER NOT NULL,
 			Timestamp 	TEXT	NOT NULL,
 
-			PRIMARY KEY (GuildID, TicketID)
+			PRIMARY KEY (GuildID, ChannelID)
 		)
 	`,
 }
