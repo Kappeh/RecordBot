@@ -351,7 +351,7 @@ type GuildBuildMessage struct {
 
 	// ChannelID is the id of the channel containing the message
 	// that contains the build
-	ChanneID string
+	ChannelID string
 	// MessageID is the id of the message contaning the build
 	MessageID string
 

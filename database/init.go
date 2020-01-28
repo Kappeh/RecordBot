@@ -137,7 +137,7 @@ var tables = [...]string{
 			EditionID 			INTEGER NOT NULL,
 			MajorVersion 		INTEGER NOT NULL,
 			MinorVersion 		INTEGER NOT NULL,
-			Path 				INTEGER NOT NULL,
+			Patch 				INTEGER NOT NULL,
 			Name 				TEXT 	NOT NULL,
 			Description 		TEXT 	NOT NULL,
 			VersionTimestamp 	INTEGER NOT NULL,
